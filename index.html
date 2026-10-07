@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>N-STEP — Smart Saving Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="authScreen" class="auth-screen">
+  <div class="auth-orb orb1"></div><div class="auth-orb orb2"></div>
+  <div class="auth-card">
+    <div class="auth-logo">N</div>
+    <span class="eyebrow">N-STEP • PERSONAL SAVING SPACE</span>
+    <h1>Save your way.<br><em>Reach your goal.</em></h1>
+    <p>Mulai perjalanan menabungmu bersama NEMI. Atur target, rencanakan tabungan, dan pantau progresmu dengan lebih mudah.</p>
+    <label>Nama Pengguna</label>
+    <input id="loginName" placeholder="Contoh: Natalia" maxlength="30" autocomplete="username">
+    <label>Password</label>
+    <div class="password-field">
+      <input id="loginPassword" type="password" placeholder="Minimal 6 karakter" minlength="6" autocomplete="current-password">
+      <button type="button" class="password-toggle" id="passwordToggle" aria-label="Tampilkan password">👁</button>
+    </div>
+    <button class="btn primary wide" id="loginBtn">🔐 Mulai Menabung</button>
+    <small class="auth-note" id="passwordNote">Kelompok 7 Matematika Distrik </small>
+    <small class="auth-note" id="passwordNote">@2026 </small>
+  </div>
+</div>
+<div id="celebrate" class="celebrate">
+  <div class="confetti c1">✦</div><div class="confetti c2">✧</div><div class="confetti c3">★</div><div class="confetti c4">✦</div>
+  <div class="celebrate-card">
+    <div class="trophy">🏆</div>
+    <span class="eyebrow">GOAL COMPLETED</span>
+    <h1>Target tercapai!</h1>
+    <p id="celebrateText"></p>
+    <div class="celebrate-total" id="celebrateTotal"></div>
+    <button class="btn primary" id="closeCelebrate">🎉 Awesome!</button>
+  </div>
+</div>
+<div class="bg b1"></div><div class="bg b2"></div><div class="bg b3"></div>
+
+<div class="app-shell">
+<aside class="sidebar" id="sidebar">
+  <a class="sidebar-brand" href="#" data-page="dashboard">
+    <div class="sidebar-logo">N</div>
+    <div><b>N-STEP</b><small>Save it. Pattern it.</small></div>
+  </a>
+  <nav class="sidebar-nav" aria-label="Navigasi utama">
+    <button class="side-nav active" data-page="dashboard"><span>⌂</span><b>Beranda</b></button>
+    <button class="side-nav" data-page="goals"><span>◎</span><b>Target Saya</b></button>
+    <button class="side-nav" data-page="planner"><span>▣</span><b>Rencana Saya</b></button>
+    <button class="side-nav" data-page="reports"><span>▥</span><b>Laporan</b></button>
+    <button class="side-nav" data-page="calculator"><span>▤</span><b>Kalkulator</b></button>
+    <button class="side-nav" data-page="heirs"><span>♡</span><b>Ahli Waris</b></button>
+    <button class="side-nav" data-page="darkweb"><span>♢</span><b>Dark Web</b></button>
+    <button class="side-nav" data-page="settings"><span>⚙</span><b>Pengaturan</b></button>
+  </nav>
+  <div class="sidebar-note">
+    <p>Ingat, setiap langkah kecil hari ini adalah langkah besar untuk masa depanmu!</p>
+    <span>– Nemi ♥</span>
+    <img src="assets/nami/motivation.png" alt="Nemi memberi semangat">
+  </div>
+</aside>
+
+<div class="app-main">
+<header class="content-topbar">
+  <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Buka atau tutup sidebar" aria-expanded="true"><span></span><span></span><span></span></button>
+  <div class="welcome-top"><span class="hello-hand">👋</span><div><b>Halo, <span id="topUserGreeting">Julvin</span>!</b><small>Yuk, wujudkan target finansialmu bersama N-STEP!</small></div></div>
+  <div class="top-search" id="topSearch"><span>⌕</span><input id="topSearchInput" aria-label="Cari" autocomplete="off" placeholder="Cari target, fitur, atau sesuatu..."><div class="search-results" id="searchResults"></div></div>
+  <div class="user-menu">
+    <button class="user-chip" id="userChip"><span id="userAvatar">J</span><b id="userName">Julvin Rut N. W.</b><span class="chev">⌄</span></button>
+    <div class="user-dropdown" id="userDropdown">
+      <small>Signed in as</small><strong id="dropUserName">User</strong>
+      <button id="switchUser">⇄ Switch user</button><button id="logoutBtn">↪ Log out</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="dashboard" class="page active dashboard-page">
+  <div class="dashboard-grid">
+    <div class="dashboard-main-col">
+      <div class="reference-hero">
+        <div class="reference-hero-copy">
+          <span class="hero-mini">N-STEP • SMART SAVING</span>
+          <h1>Rencanakan Hari Ini,<br><em>Wujudkan Mimpi Esok</em></h1>
+          <p>N-STEP membantu kamu menabung, merencanakan, dan melindungi masa depan — bahkan setelah kamu tiada.</p>
+          <div class="hero-actions">
+            <button class="btn primary" data-page="planner">＋ Buat Target Menabung</button>
+            <button class="btn ghost" data-page="goals">Lihat Target Saya →</button>
+            <button class="btn soft-purple future-action" data-page="darkweb">🛡 Aktifkan Dark Web</button>
+          </div>
+        </div>
+        <div class="reference-hero-art">
+          <div class="hero-stars">✦</div><div class="hero-spark">✧</div>
+          <div class="hero-bubble">Yuk atur<br>masa depanmu<br>bersama Nemi!<br><b>↘</b></div>
+          <img src="assets/nami/dashboard-guide.png" alt="Nemi memegang dashboard N-STEP">
+        </div>
+      </div>
+
+      <div class="total-card">
+        <div class="total-icon">💰</div>
+        <div class="total-copy"><small>Total Terkumpul　◉</small><strong id="dashSaved">Rp 0</strong><span id="dashTargetLine">dari target Rp 5.000.000</span></div>
+        <div class="total-progress"><div class="ring"><b id="dashPercent">0%</b></div><div class="mini-progress"><i id="dashProgressBar" style="width:0%"></i></div></div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-card blue"><span>🎯</span><small>Target Aktif</small><b id="dashGoals">0</b></div>
+        <div class="metric-card orange"><span>🔥</span><small>Saving Streak</small><b id="dashStreak">0 Hari</b></div>
+        <div class="metric-card purple"><span>🧠</span><small>Pola Terbukti</small><b id="dashProof">0 Plan</b></div>
+      </div>
+
+      <div class="next-section">
+        <div class="section-title-row"><div><span class="section-kicker">YOUR NEXT STEP</span><h2>🌱 Langkah Menabung Berikutnya</h2><p>Mulai dari target kecil, capai mimpi besar!</p></div><button class="link-btn" data-page="goals">Lihat Semua →</button></div>
+        <div id="dashboardNext" class="reference-next-card">
+          <div class="next-nami-mini"><img src="assets/nami/motivation.png" alt="Nemi motivasi"></div>
+          <div><h3>Belum Ada Target Aktif</h3><p>Rencanakan target pertamamu di N-STEP. Kamu bisa mulai dari menabung untuk kebutuhan jangka pendek maupun jangka panjang.</p></div>
+          <button class="btn primary" data-page="planner">＋ Buat Target Baru</button>
+        </div>
+      </div>
+
+      <div class="my-goals-preview">
+        <div class="section-title-row"><div><h2>🎯 My Goals</h2><p>Atur tujuanmu, dan biarkan N-STEP membantumu mencapainya.</p></div></div>
+        <div class="mini-goals-row">
+          <div class="mini-goal pink"><span>🎯</span><small>Target Aktif</small><b id="dashGoalsMini">0</b></div>
+          <div class="mini-goal green"><span>💰</span><small>Total Terkumpul</small><b id="dashSavedMini">Rp 0</b></div>
+          <div class="mini-goal yellow"><span>🔥</span><small>Saving Streak</small><b id="dashStreakMini">0 Hari</b></div>
+          <div class="mini-goal lavender"><span>🧠</span><small>Pola Terbukti</small><b id="dashProofMini">0 Plan</b></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="dashboard-right-col">
+      <div class="promo-card darkweb-card">
+        <div class="promo-nami"><img src="assets/nami/dark-web-guardian.png" alt="Nemi Dark Web Guardian"></div>
+        <h3>DARK WEB</h3><b>Pantau kebocoran datamu</b>
+        <p>Cegah penyalahgunaan data pribadi sebelum terlambat. N-STEP membantu mengecek kebiasaan keamanan dan kesiapan akunmu.</p>
+        <button class="promo-btn future-action" data-page="darkweb">Aktifkan Sekarang →</button>
+      </div>
+      <div class="promo-card heirs-card">
+        <div class="promo-nami"><img src="assets/nami/ahli-waris.png" alt="Nemi Ahli Waris"></div>
+        <h3>AHLI WARIS</h3><b>Lindungi yang kamu sayang</b>
+        <p>Siapkan penerima manfaat untuk aset digital dan rencana keuangan, jika suatu saat kamu tidak lagi di sini.</p>
+        <button class="promo-btn future-action" data-page="heirs">Atur Sekarang →</button>
+      </div>
+      <div class="schedule-preview-card">
+        <div class="schedule-preview-head"><div><h3>▣ Jadwal &amp; Progress</h3></div><button class="link-btn" data-page="schedule">Lihat Semua →</button></div>
+        <div class="schedule-empty-mini"><div class="calendar-icon">▣</div><div><b>Belum ada rencana aktif</b><p>Buat jadwal menabung dan pantau progress kamu di sini.</p><button class="schedule-btn" data-page="planner">Buat Jadwal</button></div></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section id="goals" class="page">
+  <div class="page-head goals-head">
+    <div><span class="eyebrow">TARGET SAYA</span><h1>Targetmu, langkah demi langkah.</h1><p>Semua target tersusun rapi supaya kamu bisa melihat progress, deadline, dan perjalanan menabungmu.</p></div>
+    <button class="btn primary" data-page="planner">＋ Buat Target</button>
+  </div>
+
+  <div class="goal-toolbar">
+    <div class="goal-filters" role="tablist" aria-label="Filter target">
+      <button class="goal-filter active" data-filter="all">Semua Target</button>
+      <button class="goal-filter" data-filter="active">Target Aktif</button>
+      <button class="goal-filter" data-filter="completed">Target Selesai</button>
+    </div>
+    <span id="goalCount" class="goal-count">0 target</span>
+  </div>
+
+  <div id="goalList" class="goal-grid"></div>
+</section>
+
+<section id="planner" class="page planner-reference-page">
+  <div class="planner-welcome">
+    <div>
+      <span class="planner-kicker">📋 RENCANA MENABUNG</span>
+      <h1>Rencanakan langkahmu,<br><em>wujudkan targetmu.</em></h1>
+      <p>Isi targetmu terlebih dahulu. N-STEP akan menghitung beberapa pola tabungan yang sesuai dengan waktu dan kemampuan menabungmu.</p>
+    </div>
+    <div class="planner-nami"><img src="assets/nami/create-target.png" alt="Nemi membuat target"></div>
+  </div>
+
+  <div class="planner-step-grid">
+    <div class="planner-form-card">
+      <div class="planner-card-title"><span>1</span><div><b>Tentukan targetmu</b><small>Mulai dari tujuan yang ingin kamu capai.</small></div></div>
+      <div class="field-group"><label>Nama target</label><input id="goalName" placeholder="Contoh: Laptop Impian"></div>
+      <div class="field-group"><label>Target tabungan</label><div class="input-money"><span>Rp</span><input id="targetAmount" type="text" inputmode="numeric" data-money-input min="1" placeholder="5.000.000"></div></div>
+      <div class="date-grid">
+        <div class="field-group"><label>Tanggal mulai</label><input id="startDate" type="date"></div>
+        <div class="field-group"><label>Deadline</label><input id="deadline" type="date"></div>
+      </div>
+    </div>
+
+    <div class="planner-form-card rhythm-card">
+      <div class="planner-card-title"><span>2</span><div><b>Pilih ritme menabung</b><small>Ini menentukan jumlah langkah dalam rencanamu.</small></div></div>
+      <div class="rhythm-options">
+        <label class="rhythm-option"><input type="radio" name="freqChoice" value="daily" checked><span>🗓️</span><div><b>Setiap hari</b><small>Langkah kecil setiap hari</small></div></label>
+        <label class="rhythm-option"><input type="radio" name="freqChoice" value="weekly"><span>📅</span><div><b>Seminggu sekali</b><small>Cocok untuk pemasukan mingguan</small></div></label>
+        <label class="rhythm-option"><input type="radio" name="freqChoice" value="twice-weekly"><span>⚡</span><div><b>2× seminggu</b><small>Lebih fleksibel</small></div></label>
+        <label class="rhythm-option"><input type="radio" name="freqChoice" value="every2"><span>🌱</span><div><b>Setiap 2 hari</b><small>Jeda sedikit antar setoran</small></div></label>
+      </div>
+      <select id="frequency" class="hidden-frequency">
+        <option value="daily">Every day</option><option value="weekly">Once a week</option><option value="twice-weekly">2× a week</option><option value="every2">Every 2 days</option><option value="every3">Every 3 days</option><option value="every5">Every 5 days</option>
+      </select>
+      <button class="btn primary wide planner-calc-btn" id="calculateBtn">✨ Hitung Rencana Saya</button>
+    </div>
+  </div>
+
+  <div class="planner-result" id="calcPreview">
+    <div class="planner-empty-result"><div class="result-icon">🧮</div><div><b>Hasil perhitungan akan muncul di sini</b><p>Isi target, tanggal, dan ritme menabung lalu tekan <strong>Hitung Rencana Saya</strong>.</p></div></div>
+  </div>
+
+  <div id="recommendations" class="recommendations hidden planner-recommendations">
+    <div class="planner-section-title"><div><span>3 • PILIH POLA</span><h2>Mana yang paling cocok untukmu?</h2><p>Semua nominal dihitung berdasarkan target dan tanggal yang kamu masukkan.</p></div><div class="nami-tip">🐹 <b>Nemi bilang:</b> pilih pola yang terasa realistis untuk kamu jalani.</div></div>
+    <div id="planCards" class="plan-grid planner-plan-grid"></div>
+
+    <div class="custom-card planner-custom-card">
+      <div class="custom-heading"><div class="custom-icon">✍️</div><div><span>POLA SENDIRI</span><h2>Ingin menentukan nominal sendiri?</h2><p>Buat aturan nominalmu. N-STEP akan mengecek apakah polanya dapat dibuktikan secara matematis.</p></div></div>
+      <div class="custom-grid">
+        <div><label>Nominal langkah pertama (Rp)</label><input id="customA" type="text" inputmode="numeric" data-money-input value="50.000"></div>
+        <div><label>Kenaikan setiap langkah (Rp)</label><input id="customD" type="text" inputmode="numeric" data-money-input value="10.000"></div>
+        <button class="btn purple-btn" id="customAnalyze">🔬 Cek Pola Saya</button>
+      </div>
+      <div id="customResult" class="custom-result hidden"></div>
+    </div>
+  </div>
+</section>
+
+<section id="reports" class="page reports-page">
+  <div class="page-head reports-head">
+    <div><span class="eyebrow">LAPORAN TABUNGAN</span><h1>Perjalananmu terlihat di sini.</h1><p>Lihat perkembangan tabungan, riwayat, dan pencapaianmu dalam satu halaman.</p></div>
+    <div class="report-nami"><img src="assets/nami/dashboard-guide.png" alt="Nemi melihat laporan"></div>
+  </div>
+  <div class="report-summary-grid">
+    <div class="report-stat-card orange"><span>💰</span><small>Total Terkumpul</small><strong id="reportTotal">Rp 0</strong><p id="reportTotalHint">Semua tabungan yang sudah dicatat</p></div>
+    <div class="report-stat-card purple"><span>🎯</span><small>Target Aktif</small><strong id="reportActive">0</strong><p>Target yang masih berjalan</p></div>
+    <div class="report-stat-card green"><span>🏆</span><small>Target Selesai</small><strong id="reportCompleted">0</strong><p>Target yang sudah tercapai</p></div>
+    <div class="report-stat-card blue"><span>🔥</span><small>Saving Streak</small><strong id="reportStreak">0 Hari</strong><p>Konsistensi terbaikmu</p></div>
+  </div>
+  <div class="reports-grid">
+    <div class="report-panel">
+      <div class="report-panel-head"><div><span class="section-kicker">PROGRESS</span><h2>Target aktif</h2></div><span id="reportOverallPct" class="report-pill">0%</span></div>
+      <div id="reportGoalProgress" class="report-goal-progress"></div>
+    </div>
+    <div class="report-panel">
+      <div class="report-panel-head"><div><span class="section-kicker">PLANNED VS ACTUAL</span><h2>Rencana & realisasi</h2></div></div>
+      <div id="reportBars" class="report-bars"></div>
+      <p class="report-note">Perbandingan dihitung dari nominal yang direncanakan dan tabungan aktual yang sudah kamu catat.</p>
+    </div>
+  </div>
+  <div class="report-history-panel">
+    <div class="report-panel-head"><div><span class="section-kicker">SAVING HISTORY</span><h2>Riwayat tabungan</h2><p>Catatan terbaru dari semua targetmu.</p></div><button class="link-btn" data-page="schedule">Buka Jadwal →</button></div>
+    <div id="reportHistory" class="report-history"></div>
+  </div>
+</section>
+
+<section id="calculator" class="page calculator-page">
+  <div class="page-head calculator-head">
+    <div><span class="eyebrow">KALKULATOR N-STEP</span><h1>Hitung, pahami, buktikan.</h1><p>Gunakan kalkulator untuk melihat kebutuhan tabungan dan memahami pola matematis yang dipakai N-STEP.</p></div>
+    <div class="calculator-nami"><img src="assets/nami/dashboard-guide.png" alt="Nemi menjelaskan kalkulator"></div>
+  </div>
+
+  <div class="calculator-layout">
+    <div class="calculator-card">
+      <div class="calculator-card-title"><span class="calc-icon">🧮</span><div><b>Kalkulator tabungan</b><small>Masukkan target dan kemampuan menabungmu.</small></div></div>
+      <div class="calc-input-grid">
+        <div class="field-group"><label>Target tabungan (Rp)</label><input id="quickTarget" type="text" inputmode="numeric" data-money-input placeholder="5.000.000"></div>
+        <div class="field-group"><label>Jumlah langkah menabung</label><input id="quickSteps" type="number" min="1" value="10"></div>
+        <div class="field-group"><label>Nominal langkah pertama (Rp)</label><input id="quickFirst" type="text" inputmode="numeric" data-money-input placeholder="400.000"></div>
+        <div class="field-group"><label>Kenaikan tiap langkah (Rp)</label><input id="quickIncrease" type="text" inputmode="numeric" data-money-input placeholder="50.000"></div>
+      </div>
+      <div class="calculator-actions"><button class="btn primary" id="quickCalcBtn">✨ Hitung Sekarang</button><button class="btn ghost" id="quickResetBtn">Reset</button></div>
+    </div>
+
+    <div class="calculator-nami-card">
+      <img src="assets/nami/motivation.png" alt="Nemi memberi semangat">
+      <div><span class="eyebrow">NEMI SAYS</span><h3>Angka boleh rumit,<br>rencananya jangan.</h3><p>Masukkan angka yang kamu punya. N-STEP akan bantu melihat apakah polanya mendekati target.</p></div>
+    </div>
+  </div>
+
+  <div id="quickCalcResult" class="quick-calc-result">
+    <div class="quick-empty"><span>🌱</span><div><b>Hasil perhitungan muncul di sini</b><p>Coba masukkan target lalu tekan <strong>Hitung Sekarang</strong>.</p></div></div>
+  </div>
+
+  <div class="proof-explainer">
+    <div><span class="section-kicker">MATHEMATICAL PROOF</span><h2>Kenapa pola N-STEP bisa dipertanggungjawabkan?</h2><p>N-STEP menggunakan barisan aritmetika untuk pola yang naik secara teratur. Pembuktian induksi membantu menunjukkan bahwa aturan nominal tetap berlaku untuk setiap langkah.</p></div>
+    <div class="proof-formula-grid">
+      <div><span>Nominal ke-n</span><strong>aₙ = a + (n − 1)d</strong></div>
+      <div><span>Jumlah seluruh langkah</span><strong>Sₙ = n/2 [2a + (n − 1)d]</strong></div>
+      <button class="btn purple-btn" id="quickProofBtn">🔎 Lihat Contoh Proof</button>
+    </div>
+  </div>
+</section>
+
+<section id="heirs" class="page heirs-page">
+  <div class="page-head heirs-head">
+    <div><span class="eyebrow">AHLI WARIS • PERENCANAAN</span><h1>Siapkan masa depan untuk orang yang kamu sayang.</h1><p>Catat penerima manfaat dan aset yang ingin kamu masukkan ke dalam rencana. Ini adalah catatan perencanaan pribadi, bukan penetapan hak waris secara hukum.</p></div>
+    <div class="heirs-hero-nami"><img src="assets/nami/ahli-waris.png" alt="Nemi membawa dokumen penting"></div>
+  </div>
+  <div class="heir-note"><span>💜</span><div><b>Nemi bilang:</b><p>Merencanakan hari esok bukan berarti memikirkan hal buruk. Ini tentang membuat informasi penting lebih jelas untuk orang yang kamu percaya.</p></div></div>
+  <div class="heir-summary-grid">
+    <div class="heir-summary-card"><span>👨‍👩‍👧‍👦</span><small>Penerima Manfaat</small><strong id="heirCount">0 penerima</strong></div>
+    <div class="heir-summary-card purple"><span>📦</span><small>Aset Dicatat</small><strong id="assetCount">0 aset</strong></div>
+    <div class="heir-summary-card green"><span>📊</span><small>Pembagian</small><strong id="heirPercent">0%</strong><p id="heirPercentNote">Belum ada pembagian.</p></div>
+  </div>
+  <div class="heirs-grid">
+    <div class="heir-panel">
+      <div class="heir-panel-head"><div><span class="section-kicker">DATA PENERIMA</span><h2>Siapa yang kamu percaya?</h2></div><span class="heir-badge">Pribadi</span></div>
+      <div class="heir-form-grid">
+        <div class="field-group"><label>Nama penerima</label><input id="beneficiaryName" placeholder="Contoh: Ibu Maria"></div>
+        <div class="field-group"><label>Hubungan</label><input id="beneficiaryRelation" placeholder="Contoh: Ibu"></div>
+        <div class="field-group"><label>Nomor kontak <small>(opsional)</small></label><input id="beneficiaryContact" placeholder="08xxxxxxxxxx"></div>
+        <div class="field-group"><label>Persentase pembagian</label><div class="input-percent"><input id="beneficiaryPercent" type="text" inputmode="numeric" data-percent-input min="1" max="100" placeholder="50"><span>%</span></div></div>
+      </div>
+      <button class="btn primary" id="addBeneficiaryBtn">＋ Tambah Penerima</button>
+      <div id="beneficiaryList" class="heir-list"></div>
+    </div>
+    <div class="heir-panel">
+      <div class="heir-panel-head"><div><span class="section-kicker">RENCANA ASET</span><h2>Apa yang ingin dicatat?</h2></div><span class="heir-badge asset">Aman & rapi</span></div>
+      <div class="heir-form-grid asset-form-grid">
+        <div class="field-group"><label>Nama aset</label><input id="assetName" placeholder="Contoh: Tabungan BCA"></div>
+        <div class="field-group"><label>Jenis aset</label><select id="assetType"><option>Tabungan</option><option>Target</option><option>Aset lainnya</option></select></div>
+        <div class="field-group full"><label>Nilai perkiraan (Rp)</label><div class="input-money"><span>Rp</span><input id="assetValue" type="text" inputmode="numeric" data-money-input min="0" placeholder="10.000.000"></div></div>
+      </div>
+      <button class="btn purple-btn" id="addAssetBtn">＋ Catat Aset</button>
+      <div id="assetList" class="heir-list"></div>
+    </div>
+  </div>
+  <div class="heir-legal-card"><div class="legal-icon">🔐</div><div><b>Catatan penting</b><p>Fitur Ahli Waris N-STEP hanya membantu menyimpan rencana dan informasi yang kamu masukkan. Penetapan ahli waris, wasiat, dan hak atas aset tetap mengikuti hukum serta dokumen resmi yang berlaku.</p></div></div>
+</section>
+
+<section id="darkweb" class="page darkweb-page">
+  <div class="darkweb-hero">
+    <div class="darkweb-copy">
+      <span class="eyebrow">N-STEP • SECURITY CENTER</span>
+      <h1>Jaga jejak digitalmu tetap aman.</h1>
+      <p>Gunakan pusat keamanan N-STEP untuk memeriksa kesiapan keamanan akun dan memahami tanda-tanda kebocoran data.</p>
+      <div class="darkweb-actions"><button class="btn primary" id="runSecurityScan">🛡 Jalankan Pemeriksaan</button><span id="securityLastScan" class="scan-time">Belum diperiksa</span></div>
+    </div>
+    <div class="darkweb-nami"><div class="shield-orb">🔒</div><img src="assets/nami/dark-web-guardian.png" alt="Nemi menjaga keamanan digital"></div>
+  </div>
+
+  <div class="security-status-card">
+    <div class="status-main"><div id="securityStatusIcon" class="security-status-icon">🛡️</div><div><span class="section-kicker">STATUS KEAMANAN</span><h2 id="securityStatusTitle">Belum diperiksa</h2><p id="securityStatusText">Jalankan pemeriksaan untuk melihat ringkasan keamanan lokal akun N-STEP.</p></div></div>
+    <span id="securityStatusBadge" class="security-badge neutral">Belum diperiksa</span>
+  </div>
+
+  <div class="security-grid">
+    <div class="security-panel"><div class="security-panel-head"><div><span class="section-kicker">CHECKLIST</span><h2>Yang perlu kamu perhatikan</h2></div></div>
+      <div id="securityChecklist" class="security-checklist"></div>
+    </div>
+    <div class="security-panel security-nami-card"><img src="assets/nami/dark-web-guardian.png" alt="Nemi security guardian"><div><span class="section-kicker">NEMI GUARDIAN</span><h2>Aman itu kebiasaan.</h2><p>Nemi mengingatkan: gunakan password unik, aktifkan verifikasi dua langkah, dan jangan membagikan kode OTP kepada siapa pun.</p><div class="security-tip">💡 N-STEP tidak meminta password atau OTP kamu.</div></div></div>
+  </div>
+
+  <div class="darkweb-info"><div class="info-icon">ℹ️</div><div><b>Tentang pemeriksaan Dark Web</b><p>Fitur ini adalah <strong>simulasi pusat monitoring untuk proyek N-STEP</strong>. Pemeriksaan di halaman ini tidak mengklaim melakukan pencarian langsung ke dark web dan tidak mengirim data pribadimu ke layanan pihak ketiga.</p></div></div>
+</section>
+
+<section id="settings" class="page settings-page">
+  <div class="settings-head">
+    <div><span class="eyebrow">PENGATURAN</span><h1>Atur N-STEP sesuai caramu.</h1><p>Kelola profil dan akunmu dengan mudah.</p></div>
+    <div class="settings-nami"><img src="assets/nami/dashboard-guide.png" alt="Nemi membantu pengaturan"></div>
+  </div>
+  <div class="settings-grid">
+    <div class="settings-card">
+      <div class="settings-card-title"><span>👤</span><div><b>Profil Pengguna</b><small>Nama yang tampil di N-STEP.</small></div></div>
+      <label class="settings-label">Nama pengguna</label>
+      <div class="settings-profile-row"><input id="settingsName" maxlength="30" placeholder="Nama kamu"><button class="btn primary" id="saveSettingsName">Simpan</button></div>
+    </div>
+
+    <div class="settings-card danger-card">
+      <div class="settings-card-title"><span>🔐</span><div><b>Akun</b><small>Keluar dari sesi pengguna saat ini.</small></div></div>
+      <button class="btn ghost wide" id="settingsLogout">↪ Keluar dari N-STEP</button>
+    </div>
+  </div>
+  <div class="settings-tip"><span>🐹</span><div><b>Nemi bilang:</b><p>Kamu nggak harus mengatur semuanya sekaligus. Pilih pengaturan yang paling nyaman, lalu lanjutkan satu langkah kecil hari ini.</p></div></div>
+</section>
+
+<section id="schedule" class="page">
+  <div class="page-head">
+    <div><span class="eyebrow">ACTIVE SCHEDULE</span><h1>Your saving calendar.</h1><p>Only the dates generated by your selected pattern are shown as saving days.</p></div>
+    <div id="activeBadge" class="badge gray">No active plan</div>
+  </div>
+  <div id="scheduleContent" class="schedule-empty">
+    <div class="empty-icon">📅</div><h2>No selected plan yet</h2><p>Choose a calculated recommendation or custom pattern first.</p>
+    <button class="btn primary" data-page="planner">Open planner</button>
+  </div>
+</section>
+</main>
+
+<div id="activityPanel" class="activity-panel"></div>
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <button class="close" id="closeModal">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
